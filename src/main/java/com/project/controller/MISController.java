@@ -1,13 +1,21 @@
 package com.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.model.Orders;
+import com.project.model.Product;
 import com.project.model.User;
-
+import com.project.repository.OrdersRepository;
+import com.project.repository.Products;
+import com.project.repository.UserRepository;
 import com.project.service.UserService;
 
 @RestController
@@ -16,7 +24,14 @@ public class MISController {
 
 	@Autowired
 	private UserService service;
-
+	@Autowired
+	private UserRepository repository;
+	@Autowired
+	private Products prod_repository;
+	
+	@Autowired
+	private OrdersRepository ordersRepo;
+	
 	@PostMapping("/register")
 	@CrossOrigin(origins="*")
 	public User registerUser(@RequestBody User user) throws Exception {
@@ -28,6 +43,12 @@ public class MISController {
 		}
 		userObj = service.registerUser(user);
 		return userObj;
+	}
+	@PostMapping("/addProduct")
+	@CrossOrigin(origins="*")
+	public Product addProduct(@RequestBody Product product){
+		
+		return prod_repository.save(product);
 	}
 
 	@PostMapping("/login")
@@ -45,6 +66,28 @@ public class MISController {
 			System.out.println("Login Success");
 		}
 		return userObj;
+	}
+	
+
+
+	@PostMapping("/placedOrderNow")
+	@CrossOrigin(origins="*")
+	public String placeOrder(@RequestBody Orders order) {
+		ordersRepo.save(order);
+		System.out.println("purchased");
+		return "Order placed successfully...";
+	}
+
+	@GetMapping("/getUserByName/{email}")
+	@CrossOrigin(origins="*")
+	public User getUserbyEmail(@PathVariable String email) {
+		return service.findEmail(email);
+	}
+
+	@GetMapping("/getProducts")
+	@CrossOrigin(origins="*")
+	public List<Product> getProducts() {
+		return prod_repository.findAll();
 	}
 
 }

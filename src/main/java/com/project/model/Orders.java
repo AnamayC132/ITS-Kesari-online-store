@@ -14,29 +14,21 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "user")
-public class User {
-	@Id
-	private String userId;
-	private String uname;
+@Document(collection = "Orders")
+public class Orders {
+	private String oname;
 	private String email;
-	private String utype;
-	private String password;
+	private List<Product> products;
+	private Address address;
+	
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 	public String getUname() {
-		return uname;
+		return oname;
 	}
 
 	public void setUname(String uname) {
-		this.uname = uname;
+		this.oname = uname;
 	}
 
 	public String getEmail() {
@@ -47,22 +39,21 @@ public class User {
 		this.email = email;
 	}
 
-	public String getUtype() {
-		return utype;
+
+	public List<Product> getProducts() {
+		return products;
 	}
 
-	public void setUtype(String utype) {
-		this.utype = utype;
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
-	public String getPassword() {
-		return password;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
-
-
 
 }
